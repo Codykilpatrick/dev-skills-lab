@@ -21,7 +21,7 @@ function newSkill(req, res) {
 function create(req, res) {
   console.log(req.body)
   req.body.done = false
-  Todo.create(req.body)
+  Skill.create(req.body)
   .then(skill => {
 		// Notice we are doing a redirect here!
     res.redirect('/skills')
@@ -32,8 +32,22 @@ function create(req, res) {
   })
 }
 
+function show(req, res) {
+  Skill.findById(req.params.id)
+  .then(skill => {
+    res.render('skills/show', {
+      skill: skill
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/skills')
+  })
+}
+
 export {
   index,
   newSkill as new,
-  create
+  create,
+  show,
 }
