@@ -57,10 +57,41 @@ function deleteSkill(req, res){
   })
 }
 
+function edit(req, res) {
+  console.log("We tried to edit");
+  Skill.findById(req.params.id)
+  .then(skill => {
+    res.render('skills/edit', {
+      skill: skill
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.redirect('/skills')
+  })
+}
+
+
+function update(req, res) {
+  // handle checkbox logic
+  req.body.done = !!req.body.done
+  // find the todo by id and update
+  Skill.findByIdAndUpdate(req.params.id, req.body, {new: true})
+  .then(skill => {
+    // redirect back to show view
+    res.redirect(`/skills/${skill._id}`)
+  })
+  .catch(error => {
+    console.log(error)
+    res.redi
+  })
+}
 export {
   index,
   newSkill as new,
   create,
   show,
   deleteSkill as delete,
+  edit,
+  update,
 }
